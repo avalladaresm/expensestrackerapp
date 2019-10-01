@@ -22,6 +22,9 @@ function Main() {
 						<Menu.Item key="3">
 							<Link to="/expenses" />Expenses
 						</Menu.Item>
+						<Menu.Item key="4">
+							<Link to="/settings" />Settings
+						</Menu.Item>
 					</Menu>
 				</Header>
 				<Content style={{ padding: '0 50px', marginTop: 100 }}>
