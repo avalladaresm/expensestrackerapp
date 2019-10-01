@@ -1,46 +1,40 @@
 import React from 'react';
-import 'antd/dist/antd.css';
-import { Layout, Menu, Card, Timeline } from 'antd';
+import { Layout, Menu } from 'antd';
+import { BrowserRouter as Router, Link } from 'react-router-dom';
 import logo from '../../assets/logo.png';
+import { mainRoute } from '../../routes';
 const { Header, Content, Footer } = Layout;
 
-function App() {
+function Main() {
 	return (
-		<Layout>
-			<Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
-				<img className="logo" src={logo} alt="logo" />
-				<Menu theme="dark" mode="horizontal" defaultSelectedKeys={[ '1' ]} style={{ lineHeight: '64px' }}>
-					<Menu.Item key="1">Dashboard</Menu.Item>
-					<Menu.Item key="2">Income</Menu.Item>
-					<Menu.Item key="3">Expenses</Menu.Item>
-				</Menu>
-			</Header>
-			<Content style={{ padding: '0 50px', marginTop: 100 }}>
-				<div style={{ background: '#fff', padding: 24, minHeight: 380 }}>
-					<Card
-						title="Last Expenses"
-						style={{ width: 300, display: 'inline-block', margin: '0 20px 0 20px' }}
-					>
-						<Timeline>
-							<Timeline.Item>Create a services site 2015-09-01</Timeline.Item>
-							<Timeline.Item>Solve initial network problems 2015-09-01</Timeline.Item>
-							<Timeline.Item>Technical testing 2015-09-01</Timeline.Item>
-							<Timeline.Item>Network problems being solved 2015-09-01</Timeline.Item>
-						</Timeline>,
-					</Card>
-					<Card title="Last Incomes" style={{ width: 300, display: 'inline-block', margin: '0 20px 0 20px' }}>
-						<Timeline>
-							<Timeline.Item>Create a services site 2015-09-01</Timeline.Item>
-							<Timeline.Item>Solve initial network problems 2015-09-01</Timeline.Item>
-							<Timeline.Item>Technical testing 2015-09-01</Timeline.Item>
-							<Timeline.Item>Network problems being solved 2015-09-01</Timeline.Item>
-						</Timeline>,
-					</Card>
-				</div>
-			</Content>
-			<Footer style={{ textAlign: 'center' }}>Alejandro Valladares 2019</Footer>
-		</Layout>
+		<Router>
+			<Layout className="mainLayout">
+				<Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
+					<img className="logo" src={logo} alt="logo" />
+					<Menu theme="dark" mode="horizontal" defaultSelectedKeys={[ '1' ]} style={{ lineHeight: '64px' }}>
+						<Menu.Item key="1">
+							<Link to="/" />
+							Dashboard
+						</Menu.Item>
+						<Menu.Item key="2">
+							<Link to="/incomes" />Income
+						</Menu.Item>
+						<Menu.Item key="3">
+							<Link to="/expenses" />Expenses
+						</Menu.Item>
+					</Menu>
+				</Header>
+				<Content style={{ padding: '0 50px', marginTop: 100 }}>
+					{mainRoute()}
+					{/* <div style={{ background: '#fff', padding: 24, minHeight: 380 }}>
+					<LastExpenses />
+					<LastIncomes />
+				</div> */}
+				</Content>
+				<Footer style={{ textAlign: 'center' }}>Alejandro Valladares 2019</Footer>
+			</Layout>
+		</Router>
 	);
 }
 
-export default App;
+export default Main;
