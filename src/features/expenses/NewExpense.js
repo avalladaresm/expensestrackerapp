@@ -9,36 +9,33 @@ class NewExpense extends React.Component {
 		this.state = {};
 	}
 
-    checkAmountFormat = (e) => {
-        const reg = /^[0-9]+(\.[0-9]{1,2})?$/;
-        reg.test(e.target.value);
-        console.log(reg.test(e.target.value))
-    }
-
 	onOk = (e) => {
 		e.preventDefault();
 		const { form, onCancel } = this.props;
 		form.validateFields((err, values) => {
 			if (err) return;
 			console.log(values);
-            /* console.log(values.datetime.toISOString()); */
-            reg.test();
-            form.resetFields();
+			/* console.log(values.datetime.toISOString()); */
+			form.resetFields();
 			onCancel();
 		});
 	};
 
-
 	render() {
 		const { visible, onCancel, form } = this.props;
-        const { getFieldDecorator } = form;
+		const { getFieldDecorator } = form;
+		const reg = /^[0-9]+(\.[0-9]{1,2})?$/;
 
 		return (
 			<Modal visible={visible} title="Add expense" okText="Add" onCancel={onCancel} onOk={this.onOk}>
 				<Form layout="vertical">
 					<Row gutter={16}>
 						<Col span={6}>
-							<Form.Item label="Amount">{getFieldDecorator('amount')(<Input allowClear />)}</Form.Item>
+							<Form.Item label="Amount">
+								{getFieldDecorator('amount', {
+									rules: [ { pattern: reg, message: 'Data has to be in currency format!' } ]
+								})(<Input allowClear />)}
+							</Form.Item>
 						</Col>
 						<Col span={18}>
 							<Form.Item label="Place">{getFieldDecorator('place')(<Input allowClear />)}</Form.Item>
@@ -65,9 +62,7 @@ class NewExpense extends React.Component {
 						</Col>
 						<Col span={12}>
 							<Form.Item label="Time">
-								{getFieldDecorator('datetime')(
-									<TimePicker format={'hh:mm'} />
-								)}
+								{getFieldDecorator('datetime')(<TimePicker format={'hh:mm'} />)}
 							</Form.Item>
 						</Col>
 					</Row>
