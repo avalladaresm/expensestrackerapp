@@ -1,5 +1,5 @@
 import React from 'react';
-import {connect } from 'react-redux'
+import { connect } from 'react-redux';
 import { Table } from 'antd';
 import NewExpense from './NewExpense';
 
@@ -17,9 +17,9 @@ class ExpensesTable extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    return {
-        expenses: state.expensesReducer.expenses
-    }
-}
+	return {
+		expenses: state.expensesReducer.expenses
+	};
+};
 
 export default connect(mapStateToProps, null)(ExpensesTable);

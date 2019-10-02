@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Modal, Form, Input, Row, Col, Select, DatePicker, TimePicker } from 'antd';
 const { TextArea } = Input;
-
+const { Option } = Select;
 class NewExpense extends React.Component {
 	constructor(props) {
 		super(props);
@@ -22,7 +23,7 @@ class NewExpense extends React.Component {
 	};
 
 	render() {
-		const { visible, onCancel, form } = this.props;
+		const { visible, onCancel, form, categories } = this.props;
 		const { getFieldDecorator } = form;
 		const reg = /^[0-9]+(\.[0-9]{1,2})?$/;
 
@@ -43,7 +44,15 @@ class NewExpense extends React.Component {
 					</Row>
 					<Row gutter={16}>
 						<Col span={12}>
-							<Form.Item label="Category">{getFieldDecorator('category')(<Select />)}</Form.Item>
+							<Form.Item label="Category">
+								{getFieldDecorator('category')(
+									<Select>
+										{categories.map((category, index) => {
+											return <Option key={index}>{category}</Option>;
+										})}
+									</Select>
+								)}
+							</Form.Item>
 						</Col>
 						<Col span={12}>
 							<Form.Item label="Payment type">
@@ -73,7 +82,14 @@ class NewExpense extends React.Component {
 }
 
 NewExpense.propTypes = {
-	form: PropTypes.object.isRequired
+	form: PropTypes.object.isRequired,
+	categories: PropTypes.array.isRequired
 };
 
-export default Form.create()(NewExpense);
+const mapStateToProps = (state) => {
+	return {
+		categories: state.settingsReducer.categories
+	};
+};
+
+export default connect(mapStateToProps, null)(Form.create()(NewExpense));
