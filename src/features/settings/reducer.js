@@ -13,9 +13,11 @@ const settingsReducer = (state = initialState, action) => {
 			};
 		}
 		case ADD_CATEGORY: {
+			let updatedCategories = state.categories.slice();
+			updatedCategories.push(action.payload)
 			return {
 				...state,
-				name: action.payload
+				categories: updatedCategories
 			};
 		}
 		default:

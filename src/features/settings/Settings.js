@@ -9,7 +9,8 @@ class Settings extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			loading: false,
+			skeletonLoading: false,
+			listLoading: false,
 			categoryToAdd: undefined
 		};
 	}
@@ -19,10 +20,10 @@ class Settings extends React.Component {
 	}
 
 	getCategoriesForSettings = () => {
-		this.setState({ loading: true });
+		this.setState({ skeletonLoading: true });
 		let { GetCategories } = this.props;
 		GetCategories().then(() => {
-			this.setState({ loading: false });
+			this.setState({ skeletonLoading: false });
 		});
 	};
 
@@ -33,20 +34,20 @@ class Settings extends React.Component {
 	handleOnClick = () => {
 		let { categoryToAdd } = this.state;
 		let { AddCategory } = this.props;
-		this.setState({ loading: true });
-		categoryToAdd
-			? AddCategory(categoryToAdd).then(() => {
-					this.setState({ loading: false });
-				})
-			: message.error("Category can't be blank");
+		if (categoryToAdd) {
+			this.setState({ listLoading: true });
+			AddCategory(categoryToAdd).then(() => {
+				this.setState({ listLoading: false });
+				message.success(`Category ${categoryToAdd} added successfully`);
+			}).catch(()=>{message.error("An error ocurred.");});
+		} else message.warning("Category can't be blank");
 	};
 
 	render() {
 		let { categories } = this.props;
-		console.log(categories);
 		return (
 			<Card title="Categories" style={{ width: 300, display: 'inline-block', margin: '0 20px 0 20px' }}>
-				<Skeleton loading={this.state.loading} active>
+				<Skeleton loading={this.state.skeletonLoading} active>
 					<Input
 						placeholder="Type a category name"
 						style={{ display: 'inline-block' }}
@@ -64,6 +65,7 @@ class Settings extends React.Component {
 							padding: '8px 24px',
 							height: '300px'
 						}}
+						loading={this.state.listLoading}
 						size="small"
 						bordered
 						dataSource={categories}
