@@ -5,8 +5,6 @@ import { Card, Skeleton, Input, Button, List } from 'antd';
 import { GetCategories } from './actions';
 import { bindActionCreators } from 'redux';
 
-//import AddCategory from './actions';
-
 class Settings extends React.Component {
 	constructor(props) {
 		super(props);
@@ -15,33 +13,21 @@ class Settings extends React.Component {
 			data: []
 		};
 	}
-
 	getCategoriesForSettings = () => {
 		this.setState({ loading: true });
 		let { GetCategories } = this.props;
-		GetCategories().then((data) => {
-			debugger
-			this.setState({ data, loading: false });
+		GetCategories().then(() => {
+			this.setState({ loading: false });
 		});
 	};
 
-	UNSAFE_componentWillMount() {
-		console.log('Component will mount!');
-	}
 	componentDidMount() {
 		this.getCategoriesForSettings();
-		console.log('Component did mount!');
 	}
-	showSkeleton = () => {
-		this.setState({ loading: true });
-		setTimeout(() => {
-			this.setState({ loading: false });
-		}, 10000);
-	};
 
 	render() {
-		let { data } = this.state;
-		console.log('d', data);
+		let { categories } = this.props;
+
 		return (
 			<Card title="Categories" style={{ width: 300, display: 'inline-block', margin: '0 20px 0 20px' }}>
 				<Skeleton loading={this.state.loading} active>
@@ -60,7 +46,7 @@ class Settings extends React.Component {
 						}}
 						size="small"
 						bordered
-						dataSource={data}
+						dataSource={categories}
 						renderItem={(item) => <List.Item>{item}</List.Item>}
 					/>
 				</Skeleton>
@@ -72,13 +58,12 @@ class Settings extends React.Component {
 Settings.propTypes = {
 	GetCategories: PropTypes.func.isRequired
 };
+const mapStateToProps = (state) => {
+	return {
+		categories: state.settingsReducer.categories
+	};
+};
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({ GetCategories }, dispatch);
 
-/* const mapDispatchToProps = (dispatch) => {
-	return {
-		getCategories: () => dispatch(GetCategories())
-	};
-}; */
-
-export default connect(null, mapDispatchToProps)(Settings);
+export default connect(mapStateToProps, mapDispatchToProps)(Settings);
