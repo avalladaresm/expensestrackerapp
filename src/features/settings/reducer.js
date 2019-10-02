@@ -1,4 +1,4 @@
-import { GET_CATEGORIES } from './actionTypes';
+import { ADD_CATEGORY, GET_CATEGORIES } from './actionTypes';
 
 const initialState = {
 	categories: []
@@ -10,6 +10,14 @@ const settingsReducer = (state = initialState, action) => {
 			return {
 				...state,
 				categories: action.payload.map((c) => c.name)
+			};
+		}
+		case ADD_CATEGORY: {
+			let updatedCategories = state.categories.slice();
+			updatedCategories.push(action.payload)
+			return {
+				...state,
+				categories: updatedCategories
 			};
 		}
 		default:
