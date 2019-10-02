@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Modal, Form, Input, Row, Col, Select, DatePicker } from 'antd';
+import { Modal, Form, Input, Row, Col, Select, DatePicker, TimePicker } from 'antd';
 const { TextArea } = Input;
 
 class NewExpense extends React.Component {
@@ -22,7 +22,8 @@ class NewExpense extends React.Component {
 
 	render() {
 		const { visible, onCancel, form } = this.props;
-		const { getFieldDecorator } = form;
+        const { getFieldDecorator } = form;
+
 		return (
 			<Modal visible={visible} title="Add expense" okText="Add" onCancel={onCancel} onOk={this.onOk}>
 				<Form layout="vertical">
@@ -36,9 +37,7 @@ class NewExpense extends React.Component {
 					</Row>
 					<Row gutter={16}>
 						<Col span={12}>
-							<Form.Item label="Category">
-								{getFieldDecorator('category')(<Select />)}
-							</Form.Item>
+							<Form.Item label="Category">{getFieldDecorator('category')(<Select />)}</Form.Item>
 						</Col>
 						<Col span={12}>
 							<Form.Item label="Payment type">
@@ -52,8 +51,15 @@ class NewExpense extends React.Component {
 						</Col>
 					</Row>
 					<Row gutter={16}>
-						<Col span={24}>
-							<Form.Item label="Date">{getFieldDecorator('date')(<DatePicker />)}</Form.Item>
+						<Col span={12}>
+							<Form.Item label="Date">{getFieldDecorator('datetime')(<DatePicker />)}</Form.Item>
+						</Col>
+						<Col span={12}>
+							<Form.Item label="Time">
+								{getFieldDecorator('datetime')(
+									<TimePicker format={'hh:mm'} />
+								)}
+							</Form.Item>
 						</Col>
 					</Row>
 				</Form>
