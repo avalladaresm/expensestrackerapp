@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Modal, Form, Input, Row, Col, Select, DatePicker, TimePicker } from 'antd';
+import { AddExpense } from './actions';
+import { bindActionCreators } from 'redux';
 const { TextArea } = Input;
 const { Option } = Select;
 class NewExpense extends React.Component {
@@ -12,11 +14,18 @@ class NewExpense extends React.Component {
 
 	onOk = (e) => {
 		e.preventDefault();
-		const { form, onCancel } = this.props;
+		const { form, onCancel, AddExpense } = this.props;
 		form.validateFields((err, values) => {
 			if (err) return;
-			console.log(values);
-			/* console.log(values.datetime.toISOString()); */
+			let data = {
+				amount: values.amount,
+				description: values.description,
+				place: values.place,
+				payment_type: values.payment_type,
+				datetime: values.datetime.toISOString(),
+				warranty: values.warranty
+			};
+			AddExpense(data).then(() => {});
 			form.resetFields();
 			onCancel();
 		});
@@ -25,8 +34,8 @@ class NewExpense extends React.Component {
 	render() {
 		const { visible, onCancel, form, categories } = this.props;
 		const { getFieldDecorator } = form;
-		const reg = /^[0-9]+(\.[0-9]{1,2})?$/;
-
+		const currencyRegex = /^[0-9]+(\.[0-9]{1,2})?$/;
+		const numberRegex = /^[0-9]+$/;
 		return (
 			<Modal visible={visible} title="Add expense" okText="Add" onCancel={onCancel} onOk={this.onOk}>
 				<Form layout="vertical">
@@ -34,7 +43,7 @@ class NewExpense extends React.Component {
 						<Col span={6}>
 							<Form.Item label="Amount">
 								{getFieldDecorator('amount', {
-									rules: [ { pattern: reg, message: 'Data has to be in currency format!' } ]
+									rules: [ { pattern: currencyRegex, message: 'Data has to be in currency format!' } ]
 								})(<Input allowClear />)}
 							</Form.Item>
 						</Col>
@@ -56,13 +65,22 @@ class NewExpense extends React.Component {
 						</Col>
 						<Col span={12}>
 							<Form.Item label="Payment type">
-								{getFieldDecorator('paymentType')(<Input allowClear />)}
+								{getFieldDecorator('payment_type')(<Input allowClear />)}
 							</Form.Item>
 						</Col>
 					</Row>
 					<Row gutter={16}>
-						<Col span={24}>
-							<Form.Item label="Description">{getFieldDecorator('description')(<TextArea />)}</Form.Item>
+						<Col span={6}>
+							<Form.Item label="Warranty">
+								{getFieldDecorator('warranty', {
+									rules: [ { pattern: numberRegex, message: 'Type the number of months under warranty!' } ]
+								})(<Input suffix="months" />)}
+							</Form.Item>
+						</Col>
+						<Col span={18}>
+							<Form.Item label="Description">
+								{getFieldDecorator('description')(<TextArea rows={1} />)}
+							</Form.Item>
 						</Col>
 					</Row>
 					<Row gutter={16}>
@@ -83,13 +101,17 @@ class NewExpense extends React.Component {
 
 NewExpense.propTypes = {
 	form: PropTypes.object.isRequired,
-	categories: PropTypes.array.isRequired
+	categories: PropTypes.array.isRequired,
+	AddExpense: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => {
 	return {
-		categories: state.settingsReducer.categories
+		categories: state.settingsReducer.categories,
+		expenses: state.expensesReducer.expenses
 	};
 };
 
-export default connect(mapStateToProps, null)(Form.create()(NewExpense));
+const mapDispatchToProps = (dispatch) => bindActionCreators({ AddExpense }, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Form.create()(NewExpense));

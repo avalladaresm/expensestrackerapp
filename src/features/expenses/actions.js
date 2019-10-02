@@ -7,12 +7,8 @@ import { /* GET_EXPENSES,*/ ADD_EXPENSE } from './actionTypes';
 	});
 }; */
 
-export const AddExpense = (name) => (dispatch) => {
-	let data = {
-		name
-	}
-
+export const AddExpense = (data) => (dispatch) => {
 	return axios.post(`http://localhost:4000/api/Expenses/`, data).then((response) => {
-		dispatch({ type: ADD_EXPENSE, payload: response.data.name });
+		dispatch({ type: ADD_EXPENSE, payload: response.data });
 	});
 };
