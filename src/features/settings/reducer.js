@@ -13,11 +13,10 @@ const settingsReducer = (state = initialState, action) => {
 			};
 		}
 		case ADD_CATEGORY: {
-			console.log(action.payload)
-			/* return {
+			return {
 				...state,
-			}; */
-			break
+				name: action.payload
+			};
 		}
 		default:
 			return state;

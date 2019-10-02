@@ -8,8 +8,11 @@ export const GetCategories = () => (dispatch) => {
 };
 
 export const AddCategory = (name) => (dispatch) => {
-	console.log("here2")
-	return axios.post(`http://localhost:4000/api/Categories/`, name).then((response) => {
-		dispatch({ type: ADD_CATEGORY, payload: response });
+	let data = {
+		name
+	}
+
+	return axios.post(`http://localhost:4000/api/Categories/`, data).then((response) => {
+		dispatch({ type: ADD_CATEGORY, payload: response.data.name });
 	});
 };

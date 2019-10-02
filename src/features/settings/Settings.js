@@ -32,25 +32,28 @@ class Settings extends React.Component {
 
 	handleOnClick = () => {
 		let { categoryToAdd } = this.state;
-		console.log('here1');
-		console.log(categoryToAdd);
-		categoryToAdd && categoryToAdd ? AddCategory(categoryToAdd) : message.error("Category can't be blank");
+		let { AddCategory } = this.props;
+		this.setState({ loading: true });
+		categoryToAdd
+			? AddCategory(categoryToAdd).then(() => {
+					this.setState({ loading: false });
+				})
+			: message.error("Category can't be blank");
 	};
 
 	render() {
-		let { categoryToAdd } = this.state;
 		let { categories } = this.props;
-		console.log(categoryToAdd);
+		console.log(categories);
 		return (
 			<Card title="Categories" style={{ width: 300, display: 'inline-block', margin: '0 20px 0 20px' }}>
 				<Skeleton loading={this.state.loading} active>
 					<Input
-						placeholder="Add a new category"
+						placeholder="Type a category name"
 						style={{ display: 'inline-block' }}
 						onChange={this.handleOnChange}
 					/>
 					<Button type="primary" style={{ display: 'inline-block' }} onClick={this.handleOnClick}>
-						Primary
+						Add category
 					</Button>
 					<List
 						style={{
@@ -73,7 +76,8 @@ class Settings extends React.Component {
 }
 
 Settings.propTypes = {
-	GetCategories: PropTypes.func.isRequired
+	GetCategories: PropTypes.func.isRequired,
+	AddCategory: PropTypes.func.isRequired
 };
 const mapStateToProps = (state) => {
 	return {
