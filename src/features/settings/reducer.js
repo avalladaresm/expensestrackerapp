@@ -1,20 +1,21 @@
-import { ADD_CATEGORY } from '../actionTypes';
+import { GET_CATEGORIES } from './actionTypes';
 
 const initialState = {
 	categories: []
 };
 
-function rootReducer(state = initialState, action) {
+const rootReducer = (state = initialState, action) => {
 	switch (action.type) {
-		case 'ADD_CATEGORY': {
-            return {
-                ...state,
-                category: action.payload
-            }
-        }
+		case GET_CATEGORIES: {
+			state.categories = action.payload.map((c) => c.name);
+			return {
+				...state,
+				categories: action.payload
+			};
+		}
 		default:
 			return state;
 	}
-}
+};
 
 export default rootReducer;

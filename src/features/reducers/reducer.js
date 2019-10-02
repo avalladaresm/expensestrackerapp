@@ -1,13 +1,6 @@
-const initialState = {
-	categories: []
-};
+import { combineReducers } from 'redux';
+import settings from '../settings/reducer';
 
-function rootReducer(state = initialState, action) {
-	switch (action.type) {
-		
-		default:
-			return state;
-	}
-}
-
-export default rootReducer;
+export default combineReducers({
+	settings
+});
