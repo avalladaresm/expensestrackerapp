@@ -1,6 +1,7 @@
 import React from 'react';
-import { Card, Button } from 'antd';
+import { Row, Button } from 'antd';
 import NewExpense from './NewExpense';
+import ExpensesTable from './ExpensesTable';
 
 class Expenses extends React.Component {
 	constructor(props) {
@@ -21,12 +22,13 @@ class Expenses extends React.Component {
 	render() {
 		let { visible } = this.state;
 		return (
-			<Card title="Expenses" style={{ width: 300, display: 'inline-block', margin: '0 20px 0 20px' }}>
+			<Row>
 				<Button type="primary" onClick={this.showModal}>
 					Add Expense
 				</Button>
 				<NewExpense visible={visible} onCancel={this.onCancel} />
-			</Card>
+				<ExpensesTable />
+			</Row>
 		);
 	}
 }

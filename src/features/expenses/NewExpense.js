@@ -9,16 +9,25 @@ class NewExpense extends React.Component {
 		this.state = {};
 	}
 
+    checkAmountFormat = (e) => {
+        const reg = /^[0-9]+(\.[0-9]{1,2})?$/;
+        reg.test(e.target.value);
+        console.log(reg.test(e.target.value))
+    }
+
 	onOk = (e) => {
 		e.preventDefault();
 		const { form, onCancel } = this.props;
 		form.validateFields((err, values) => {
 			if (err) return;
 			console.log(values);
-			form.resetFields();
+            /* console.log(values.datetime.toISOString()); */
+            reg.test();
+            form.resetFields();
 			onCancel();
 		});
 	};
+
 
 	render() {
 		const { visible, onCancel, form } = this.props;
