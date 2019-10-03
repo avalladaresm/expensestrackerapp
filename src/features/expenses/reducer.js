@@ -9,7 +9,7 @@ const expensesReducer = (state = initialState, action) => {
 		case GET_EXPENSES: {
 			return {
 				...state,
-				expenses: action.payload.map((e) => e.name)
+				expenses: action.payload
 			};
 		}
 		case ADD_EXPENSE: {
