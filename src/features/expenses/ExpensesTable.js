@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Table, Card } from 'antd';
+import { Table, Card, Icon, Divider, Button, Tooltip } from 'antd';
+import moment from 'moment';
 
 class ExpensesTable extends React.Component {
 	constructor(props) {
@@ -11,6 +12,23 @@ class ExpensesTable extends React.Component {
 	render() {
 		let {} = this.state;
 		let { expenses } = this.props;
+
+		const actions = (
+			<div>
+				<Tooltip title="Edit record">
+					<Button type="link">
+						<Icon type="edit" />
+					</Button>
+				</Tooltip>
+				<Divider type="vertical" />
+				<Tooltip title="Delete record">
+					<Button type="link">
+						<Icon type="delete" />
+					</Button>
+				</Tooltip>
+			</div>
+		);
+
 		const columns = [
 			{
 				title: 'Amount',
@@ -30,14 +48,20 @@ class ExpensesTable extends React.Component {
 			},
 			{
 				title: 'Date and time',
-				dataIndex: 'datetime'
+				dataIndex: 'datetime',
+				render: (datetime) => moment(datetime).format('LLLL')
+			},
+			{
+				title: 'Actions',
+				render: () => actions
 			}
 		];
+
 		console.log('col', columns);
 		console.log('exs', expenses);
 		return (
 			<Card>
-				<Table rowKey={expenses => expenses.id} columns={columns} dataSource={expenses} bordered stripped />
+				<Table rowKey={(expenses) => expenses.id} columns={columns} dataSource={expenses} bordered stripped />
 			</Card>
 		);
 	}
