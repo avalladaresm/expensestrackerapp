@@ -9,7 +9,7 @@ const settingsReducer = (state = initialState, action) => {
 		case GET_CATEGORIES: {
 			return {
 				...state,
-				categories: action.payload.map((c) => c.name)
+				categories: action.payload
 			};
 		}
 		case ADD_CATEGORY: {

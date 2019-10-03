@@ -23,7 +23,8 @@ class NewExpense extends React.Component {
 				place: values.place,
 				payment_type: values.payment_type,
 				datetime: values.datetime.toISOString(),
-				warranty: values.warranty
+				warranty: values.warranty,
+				categoryId: values.categoryId
 			};
 			AddExpense(data).then(() => {});
 			form.resetFields();
@@ -54,10 +55,10 @@ class NewExpense extends React.Component {
 					<Row gutter={16}>
 						<Col span={12}>
 							<Form.Item label="Category">
-								{getFieldDecorator('category')(
+								{getFieldDecorator('categoryId')(
 									<Select>
-										{categories.map((category, index) => {
-											return <Option key={index}>{category}</Option>;
+										{categories.map((category) => {
+											return <Option key={category.id}>{category.name}</Option>;
 										})}
 									</Select>
 								)}
@@ -73,7 +74,9 @@ class NewExpense extends React.Component {
 						<Col span={6}>
 							<Form.Item label="Warranty">
 								{getFieldDecorator('warranty', {
-									rules: [ { pattern: numberRegex, message: 'Type the number of months under warranty!' } ]
+									rules: [
+										{ pattern: numberRegex, message: 'Type the number of months under warranty!' }
+									]
 								})(<Input suffix="months" />)}
 							</Form.Item>
 						</Col>
