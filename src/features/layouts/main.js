@@ -6,16 +6,16 @@ import { BrowserRouter as Router, Link } from 'react-router-dom';
 import logo from '../../assets/logo.png';
 import { mainRoute } from '../../routes';
 import { bindActionCreators } from 'redux';
-import { InitExpenses, /* InitIncomes, */ InitCategories } from './actions';
+import { InitExpenses, InitIncomes, InitCategories } from './actions';
 const { Header, Content, Footer } = Layout;
 
 class Main extends React.Component {
 	componentDidMount() {
-		let { InitExpenses, /* InitIncomes, */ InitCategories } = this.props;
+		let { InitExpenses, InitIncomes, InitCategories } = this.props;
 
 		InitExpenses().then(() => {});
-/* 		InitIncomes().then(() => {});
- */		InitCategories().then(() => {});
+		InitIncomes().then(() => {});
+		InitCategories().then(() => {});
 	}
 
 	render() {
@@ -61,16 +61,16 @@ class Main extends React.Component {
 
 Main.propTypes = {
 	InitExpenses: PropTypes.func.isRequired,
-/* 	InitIncomes: PropTypes.func.isRequired,
- */	InitCategories: PropTypes.func.isRequired
+	InitIncomes: PropTypes.func.isRequired,
+	InitCategories: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => {
-	console.log(state)
+	console.log(state);
 	return {
 		expenses: state.expensesReducer.expenses,
-/* 		incomes: state.incomesReducer.incomes,
- */		categories: state.settingsReducer.categories
+		incomes: state.incomesReducer.incomes,
+		categories: state.settingsReducer.categories
 	};
 };
 
@@ -78,8 +78,8 @@ const mapDispatchToProps = (dispatch) =>
 	bindActionCreators(
 		{
 			InitExpenses,
-/* 			InitIncomes,
- */			InitCategories
+			InitIncomes,
+			InitCategories
 		},
 		dispatch
 	);
