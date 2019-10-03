@@ -52,6 +52,12 @@ class ExpensesTable extends React.Component {
 				render: (datetime) => moment(datetime).format('LLLL')
 			},
 			{
+				title: 'Warranty',
+				dataIndex: 'warranty',
+				render: (warranty) => warranty && warranty + ' months'
+
+			},
+			{
 				title: 'Actions',
 				render: () => actions
 			}
