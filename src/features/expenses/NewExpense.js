@@ -56,7 +56,11 @@ class NewExpense extends React.Component {
 						<Col span={12}>
 							<Form.Item label="Category">
 								{getFieldDecorator('categoryId')(
-									<Select>
+									<Select
+										showSearch
+										filterOption={(input, option) =>
+											option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+									>
 										{categories.map((category) => {
 											return <Option key={category.id}>{category.name}</Option>;
 										})}
