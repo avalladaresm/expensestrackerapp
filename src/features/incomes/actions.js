@@ -12,3 +12,9 @@ export const AddIncome = (data) => (dispatch) => {
 		dispatch({ type: ADD_INCOME, payload: response.data });
 	});
 };
+
+export const GetIncomeCategory = (id) => () => {
+	return axios.get(`http://localhost:4000/api/Incomes/${id}/category`).then((response) => {
+		return response.data.name
+	});
+};

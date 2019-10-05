@@ -1,4 +1,4 @@
-import { ADD_EXPENSE, GET_EXPENSES } from './actionTypes';
+import { ADD_EXPENSE, GET_EXPENSES, ADD_EXPENSE_CATEGORY } from './actionTypes';
 
 const initialState = {
 	expenses: []
@@ -15,6 +15,16 @@ const expensesReducer = (state = initialState, action) => {
 		case ADD_EXPENSE: {
 			let updatedExpenses = state.expenses.slice();
 			updatedExpenses.push(action.payload)
+			return {
+				...state,
+				expenses: updatedExpenses
+			};
+		}
+		case ADD_EXPENSE_CATEGORY: {
+			state.expenses.pop();
+			let updatedExpenses = state.expenses.slice();
+			updatedExpenses.push(action.payload)
+			//updatedExpenses.push(action.payload)
 			return {
 				...state,
 				expenses: updatedExpenses

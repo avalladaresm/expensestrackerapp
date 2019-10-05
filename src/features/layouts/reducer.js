@@ -1,8 +1,8 @@
 import { INIT_EXPENSES, INIT_INCOMES, INIT_CATEGORIES } from './actionTypes';
 
 const initialState = {
-	expenses: {},
-	incomes: {},
+	expenses: [],
+	incomes: [],
 	categories: []
 };
 

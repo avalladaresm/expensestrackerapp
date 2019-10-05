@@ -2,7 +2,6 @@ import React from 'react';
 import { Row, Button } from 'antd';
 import NewExpense from './NewExpense';
 import ExpensesTable from './ExpensesTable';
-
 class Expenses extends React.Component {
 	constructor(props) {
 		super(props);
@@ -21,6 +20,7 @@ class Expenses extends React.Component {
 
 	render() {
 		let { visible } = this.state;
+		//let { expenses } = this.props;
 		return (
 			<Row>
 				<Button type="primary" onClick={this.showModal}>

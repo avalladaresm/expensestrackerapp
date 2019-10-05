@@ -1,18 +1,47 @@
 import React from 'react';
+import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import { Table, Card, Icon, Divider, Button, Tooltip } from 'antd';
+import { bindActionCreators } from 'redux';
+import { GetExpenseCategory } from './actions';
 import moment from 'moment';
 
 class ExpensesTable extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {};
+		this.state = {
+			data: {}
+		};
 	}
 
-	render() {
-		let {} = this.state;
-		let { expenses } = this.props;
+	/* getExpenseCategory = () => {
+		let { GetExpenseCategory, expenses } = this.props;
+		let { data } = this.state;
+		console.log('exp', expenses);
 
+		for (let i = 0; i < expenses.length; i++) {
+			expenses[i].id &&
+				GetExpenseCategory(expenses[i].id).then((res) => {
+					console.log('exx', res);
+
+					expenses[i] = {
+						...expenses[i],
+						category: res
+					};
+				});
+		}
+	}; */
+
+	
+	render() {
+		let { data } = this.state;
+		let { expenses } = this.props;
+/* 		this.getExpenseCategory(); */
+		//this.props.GetExpenseCategory(1).then((res)=>{console.log("res", res)})
+		//let data = this.getExpenseCategory();
+		console.log('d', data);
+		console.log('d', expenses.map((d) => d.category));
+		console.log('ex', expenses);
 		const actions = (
 			<div>
 				<Tooltip title="Edit record">
@@ -43,6 +72,11 @@ class ExpensesTable extends React.Component {
 				dataIndex: 'place'
 			},
 			{
+				title: 'Category',
+				dataIndex: 'name'
+				//render: (category) => category && category
+			},
+			{
 				title: 'Payment type',
 				dataIndex: 'payment_type'
 			},
@@ -55,7 +89,6 @@ class ExpensesTable extends React.Component {
 				title: 'Warranty',
 				dataIndex: 'warranty',
 				render: (warranty) => warranty && warranty + ' months'
-
 			},
 			{
 				title: 'Actions',
@@ -63,15 +96,18 @@ class ExpensesTable extends React.Component {
 			}
 		];
 
-		console.log('col', columns);
-		console.log('exs', expenses);
 		return (
 			<Card>
-				<Table rowKey={(expenses) => expenses.id} columns={columns} dataSource={expenses} bordered stripped />
+				<Table rowKey={(data) => data.id} columns={columns} dataSource={expenses} bordered />
 			</Card>
 		);
 	}
 }
+
+ExpensesTable.propTypes = {
+	GetExpenseCategory: PropTypes.func.isRequired,
+	expenses: PropTypes.array.isRequired
+};
 
 const mapStateToProps = (state) => {
 	return {
@@ -79,4 +115,6 @@ const mapStateToProps = (state) => {
 	};
 };
 
-export default connect(mapStateToProps, null)(ExpensesTable);
+const mapDispatchToProps = (dispatch) => bindActionCreators({ GetExpenseCategory }, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(ExpensesTable);

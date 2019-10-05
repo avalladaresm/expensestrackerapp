@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Modal, Form, Input, Row, Col, Select, DatePicker, TimePicker } from 'antd';
-import { AddExpense } from './actions';
+import { AddExpense, AddExpenseCategory } from './actions';
 import { bindActionCreators } from 'redux';
 const { TextArea } = Input;
 const { Option } = Select;
@@ -14,19 +14,22 @@ class NewExpense extends React.Component {
 
 	onOk = (e) => {
 		e.preventDefault();
-		const { form, onCancel, AddExpense } = this.props;
+		const { form, onCancel, AddExpense, expenses } = this.props;
 		form.validateFields((err, values) => {
 			if (err) return;
 			let data = {
-				amount: values.amount,
 				description: values.description,
+				amount: values.amount,
 				place: values.place,
-				payment_type: values.payment_type,
-				datetime: values.datetime.toISOString(),
+				paymentType: values.paymentType,
+				dateTime: values.dateTime.toISOString(),
 				warranty: values.warranty,
 				categoryId: values.categoryId
 			};
 			AddExpense(data).then(() => {});
+			console.log("addexpense finish")
+			console.log("expid",expenses[expenses.length - 1].id,expenses[expenses.length - 1].amount)
+			AddExpenseCategory(expenses[expenses.length - 1]).then(() => {});
 			form.resetFields();
 			onCancel();
 		});
@@ -70,7 +73,7 @@ class NewExpense extends React.Component {
 						</Col>
 						<Col span={12}>
 							<Form.Item label="Payment type">
-								{getFieldDecorator('payment_type')(<Input allowClear />)}
+								{getFieldDecorator('paymentType')(<Input allowClear />)}
 							</Form.Item>
 						</Col>
 					</Row>
@@ -92,11 +95,11 @@ class NewExpense extends React.Component {
 					</Row>
 					<Row gutter={16}>
 						<Col span={12}>
-							<Form.Item label="Date">{getFieldDecorator('datetime')(<DatePicker />)}</Form.Item>
+							<Form.Item label="Date">{getFieldDecorator('dateTime')(<DatePicker />)}</Form.Item>
 						</Col>
 						<Col span={12}>
 							<Form.Item label="Time">
-								{getFieldDecorator('datetime')(<TimePicker format={'hh:mm'} />)}
+								{getFieldDecorator('dateTime')(<TimePicker format={'hh:mm'} />)}
 							</Form.Item>
 						</Col>
 					</Row>
@@ -109,7 +112,8 @@ class NewExpense extends React.Component {
 NewExpense.propTypes = {
 	form: PropTypes.object.isRequired,
 	categories: PropTypes.array.isRequired,
-	AddExpense: PropTypes.func.isRequired
+	AddExpense: PropTypes.func.isRequired,
+	AddExpenseCategory: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => {
@@ -119,6 +123,6 @@ const mapStateToProps = (state) => {
 	};
 };
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({ AddExpense }, dispatch);
+const mapDispatchToProps = (dispatch) => bindActionCreators({ AddExpense, AddExpenseCategory }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Form.create()(NewExpense));
