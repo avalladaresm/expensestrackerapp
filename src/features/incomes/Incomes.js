@@ -1,17 +1,36 @@
 import React from 'react';
-import { Card, Timeline } from 'antd';
+import { Row, Button } from 'antd';
+import NewIncome from './NewIncome';
+import IncomesTable from './IncomesTable';
 
-function Incomes() {
-	return (
-		<Card title="Last Incomes" style={{ width: 300, display: 'inline-block', margin: '0 20px 0 20px' }}>
-			<Timeline>
-				<Timeline.Item>Create a services site 2015-09-01</Timeline.Item>
-				<Timeline.Item>Solve initial network problems 2015-09-01</Timeline.Item>
-				<Timeline.Item>Technical testing 2015-09-01</Timeline.Item>
-				<Timeline.Item>Network problems being solved 2015-09-01</Timeline.Item>
-			</Timeline>,
-		</Card>
-	);
+class Incomes extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			visible: false
+		};
+	}
+
+	showModal = () => {
+		this.setState({ visible: true });
+	};
+
+	onCancel = () => {
+		this.setState({ visible: false });
+	};
+
+	render() {
+		let { visible } = this.state;
+		return (
+			<Row>
+				<Button type="primary" onClick={this.showModal}>
+					Add Income
+				</Button>
+				<NewIncome visible={visible} onCancel={this.onCancel} />
+				<IncomesTable />
+			</Row>
+		);
+	}
 }
 
 export default Incomes;

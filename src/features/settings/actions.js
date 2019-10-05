@@ -7,12 +7,8 @@ export const GetCategories = () => (dispatch) => {
 	});
 };
 
-export const AddCategory = (name) => (dispatch) => {
-	let data = {
-		name
-	}
-
+export const AddCategory = (data) => (dispatch) => {
 	return axios.post(`http://localhost:4000/api/Categories/`, data).then((response) => {
-		dispatch({ type: ADD_CATEGORY, payload: response.data.name });
+		dispatch({ type: ADD_CATEGORY, payload: response.data });
 	});
 };
