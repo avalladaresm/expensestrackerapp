@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Card } from 'antd';
 import { Pie, yuan } from 'ant-design-pro/lib/Charts';
-import moment from 'moment';
-
 class LastRecordsTimeline extends React.Component {
 	constructor(props) {
 		super(props);
@@ -12,7 +10,6 @@ class LastRecordsTimeline extends React.Component {
 	}
 
 	render() {
-		let { lastRecords } = this.props;
 
 		const salesPieData = [
 			{

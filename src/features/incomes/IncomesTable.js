@@ -10,7 +10,6 @@ class IncomesTable extends React.Component {
 	}
 
 	render() {
-		let {} = this.state;
 		let { incomes } = this.props;
 
 		const actions = (

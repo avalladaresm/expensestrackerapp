@@ -10,7 +10,6 @@ class ExpensesTable extends React.Component {
 	}
 
 	render() {
-		let {} = this.state;
 		let { expenses } = this.props;
 
 		const actions = (
