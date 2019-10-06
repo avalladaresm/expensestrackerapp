@@ -6,15 +6,16 @@ import { BrowserRouter as Router, Link } from 'react-router-dom';
 import logo from '../../assets/logo.png';
 import { mainRoute } from '../../routes';
 import { bindActionCreators } from 'redux';
-import { InitExpenses, InitIncomes } from './actions';
+import { InitExpenses, InitIncomes, InitLastRecords } from './actions';
 const { Header, Content, Footer } = Layout;
 
 class Main extends React.Component {
 	componentDidMount() {
-		let { InitExpenses, InitIncomes } = this.props;
+		let { InitExpenses, InitIncomes, InitLastRecords } = this.props;
 
-		InitExpenses().then(() => {});
 		InitIncomes().then(() => {});
+		InitExpenses().then(() => {});
+		InitLastRecords().then(() => {});
 	}
 
 	render() {
@@ -56,24 +57,19 @@ class Main extends React.Component {
 }
 
 Main.propTypes = {
-	InitExpenses: PropTypes.func.isRequired,
 	InitIncomes: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = (state) => {
-	return {
-		expenses: state.expensesReducer.expenses,
-		incomes: state.incomesReducer.incomes,
-	};
+	InitExpenses: PropTypes.func.isRequired,
+	InitLastRecords: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = (dispatch) =>
 	bindActionCreators(
 		{
-			InitExpenses,
 			InitIncomes,
+			InitExpenses,
+			InitLastRecords
 		},
 		dispatch
 	);
 
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default connect(null, mapDispatchToProps)(Main);

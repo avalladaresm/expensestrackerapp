@@ -1,0 +1,1 @@
+export const GET_LAST_RECORDS = 'GET_LAST_RECORDS';
