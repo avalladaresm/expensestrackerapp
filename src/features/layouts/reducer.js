@@ -1,9 +1,8 @@
-import { INIT_EXPENSES, INIT_INCOMES, INIT_CATEGORIES } from './actionTypes';
+import { INIT_EXPENSES, INIT_INCOMES } from './actionTypes';
 
 const initialState = {
 	expenses: {},
-	incomes: {},
-	categories: []
+	incomes: {}
 };
 
 const initReducer = (state = initialState, action) => {
@@ -18,12 +17,6 @@ const initReducer = (state = initialState, action) => {
 			return {
 				...state,
 				incomes: action.payload
-			};
-		}
-		case INIT_CATEGORIES: {
-			return {
-				...state,
-				categories: action.payload.map((c) => c.name)
 			};
 		}
 		default:

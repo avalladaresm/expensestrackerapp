@@ -6,16 +6,15 @@ import { BrowserRouter as Router, Link } from 'react-router-dom';
 import logo from '../../assets/logo.png';
 import { mainRoute } from '../../routes';
 import { bindActionCreators } from 'redux';
-import { InitExpenses, InitIncomes, InitCategories } from './actions';
+import { InitExpenses, InitIncomes } from './actions';
 const { Header, Content, Footer } = Layout;
 
 class Main extends React.Component {
 	componentDidMount() {
-		let { InitExpenses, InitIncomes, InitCategories } = this.props;
+		let { InitExpenses, InitIncomes } = this.props;
 
 		InitExpenses().then(() => {});
 		InitIncomes().then(() => {});
-		InitCategories().then(() => {});
 	}
 
 	render() {
@@ -40,9 +39,6 @@ class Main extends React.Component {
 							<Menu.Item key="3">
 								<Link to="/expenses" />Expenses
 							</Menu.Item>
-							<Menu.Item key="4">
-								<Link to="/settings" />Settings
-							</Menu.Item>
 						</Menu>
 					</Header>
 					<Content style={{ padding: '0 50px', marginTop: 100 }}>
@@ -62,7 +58,6 @@ class Main extends React.Component {
 Main.propTypes = {
 	InitExpenses: PropTypes.func.isRequired,
 	InitIncomes: PropTypes.func.isRequired,
-	InitCategories: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => {
@@ -70,7 +65,6 @@ const mapStateToProps = (state) => {
 	return {
 		expenses: state.expensesReducer.expenses,
 		incomes: state.incomesReducer.incomes,
-		categories: state.settingsReducer.categories
 	};
 };
 
@@ -79,7 +73,6 @@ const mapDispatchToProps = (dispatch) =>
 		{
 			InitExpenses,
 			InitIncomes,
-			InitCategories
 		},
 		dispatch
 	);
