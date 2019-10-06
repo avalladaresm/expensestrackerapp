@@ -15,7 +15,7 @@ class LastRecordsTimeline extends React.Component {
         let { lastRecords } = this.props;
         
 		return (
-			<Card className="lastRecordsCard">
+			<Card title="Last records" className="lastRecordsCard">
 				<Timeline mode="alternate">
 					{lastRecords.map((last, index) => {
 						return (
