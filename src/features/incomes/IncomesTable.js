@@ -44,12 +44,12 @@ class IncomesTable extends React.Component {
 			},
 			{
 				title: 'Payment type',
-				dataIndex: 'payment_type'
+				dataIndex: 'paymentType'
 			},
 			{
 				title: 'Date and time',
-				dataIndex: 'datetime',
-				render: (datetime) => moment(datetime).format('LLLL')
+				dataIndex: 'dateTime',
+				render: (dateTime) => moment(dateTime).format('LLLL')
 			},
 			{
 				title: 'Actions',

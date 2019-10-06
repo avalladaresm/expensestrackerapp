@@ -44,12 +44,11 @@ class ExpensesTable extends React.Component {
 			},
 			{
 				title: 'Payment type',
-				dataIndex: 'payment_type'
+				dataIndex: 'paymentType'
 			},
 			{
-				title: 'Date and time',
-				dataIndex: 'datetime',
-				render: (datetime) => moment(datetime).format('LLLL')
+				title: 'Category',
+				dataIndex: 'category'
 			},
 			{
 				title: 'Warranty',
@@ -58,7 +57,18 @@ class ExpensesTable extends React.Component {
 
 			},
 			{
+				title: 'Date and time',
+				dataIndex: 'dateTime',
+				render: (dateTime) => moment(dateTime).format('LLLL')
+			},
+			{
+				title: 'Created at',
+				dataIndex: 'createdAt',
+				render: (dateTime) => moment(dateTime).format('LLLL')
+			},
+			{
 				title: 'Actions',
+				width: 150,
 				render: () => actions
 			}
 		];
