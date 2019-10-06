@@ -31,12 +31,12 @@ class IncomesTable extends React.Component {
 
 		const columns = [
 			{
-				title: 'Amount',
-				dataIndex: 'amount'
-			},
-			{
 				title: 'Description',
 				dataIndex: 'description'
+			},
+			{
+				title: 'Amount',
+				dataIndex: 'amount'
 			},
 			{
 				title: 'Place',
@@ -47,18 +47,26 @@ class IncomesTable extends React.Component {
 				dataIndex: 'paymentType'
 			},
 			{
+				title: 'Category',
+				dataIndex: 'category'
+			},
+			{
 				title: 'Date and time',
 				dataIndex: 'dateTime',
 				render: (dateTime) => moment(dateTime).format('LLLL')
 			},
 			{
+				title: 'Created at',
+				dataIndex: 'createdAt',
+				render: (createdAt) => moment(createdAt).format('LLLL')
+			},
+			{
 				title: 'Actions',
+				width: 150,
 				render: () => actions
 			}
 		];
 
-		console.log('col', columns);
-		console.log('exs', incomes);
 		return (
 			<Card>
 				<Table rowKey={(incomes) => incomes.id} columns={columns} dataSource={incomes} bordered stripped />

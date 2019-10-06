@@ -61,7 +61,6 @@ Main.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-	console.log(state);
 	return {
 		expenses: state.expensesReducer.expenses,
 		incomes: state.incomesReducer.incomes,

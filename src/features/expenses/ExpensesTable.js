@@ -31,12 +31,12 @@ class ExpensesTable extends React.Component {
 
 		const columns = [
 			{
-				title: 'Amount',
-				dataIndex: 'amount'
-			},
-			{
 				title: 'Description',
 				dataIndex: 'description'
+			},
+			{
+				title: 'Amount',
+				dataIndex: 'amount'
 			},
 			{
 				title: 'Place',
@@ -64,7 +64,7 @@ class ExpensesTable extends React.Component {
 			{
 				title: 'Created at',
 				dataIndex: 'createdAt',
-				render: (dateTime) => moment(dateTime).format('LLLL')
+				render: (createdAt) => moment(createdAt).format('LLLL')
 			},
 			{
 				title: 'Actions',
@@ -73,8 +73,6 @@ class ExpensesTable extends React.Component {
 			}
 		];
 
-		console.log('col', columns);
-		console.log('exs', expenses);
 		return (
 			<Card>
 				<Table rowKey={(expenses) => expenses.id} columns={columns} dataSource={expenses} bordered stripped />

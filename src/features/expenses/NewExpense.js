@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Modal, Form, Input, Row, Col, Select, DatePicker, TimePicker } from 'antd';
 import { AddExpense } from './actions';
 import { bindActionCreators } from 'redux';
-import { categories } from '../../constants/global';
+import { expenseCategories } from '../../constants/global';
 import moment from 'moment';
 const { TextArea } = Input;
 const { Option } = Select;
@@ -19,7 +19,6 @@ class NewExpense extends React.Component {
 		const { form, onCancel, AddExpense } = this.props;
 		form.validateFields((err, values) => {
 			if (err) return;
-			console.log("vals", values)
 			let data = {
 				description: values.description,
 				amount: values.amount,
@@ -65,7 +64,7 @@ class NewExpense extends React.Component {
 										filterOption={(input, option) =>
 											option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
 									>
-										{categories.map(category => {
+										{expenseCategories.map(category => {
 											return <Option key={category.name}>{category.name}</Option>;
 										})}
 									</Select>

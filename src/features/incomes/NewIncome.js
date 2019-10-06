@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 import { Modal, Form, Input, Row, Col, Select, DatePicker, TimePicker } from 'antd';
 import { AddIncome } from './actions';
 import { bindActionCreators } from 'redux';
-import { categories } from '../../constants/global';
+import { incomeCategories } from '../../constants/global';
+import moment from 'moment';
 const { TextArea } = Input;
 const { Option } = Select;
 class NewIncome extends React.Component {
@@ -19,12 +20,13 @@ class NewIncome extends React.Component {
 		form.validateFields((err, values) => {
 			if (err) return;
 			let data = {
-				amount: values.amount,
 				description: values.description,
+				amount: values.amount,
 				place: values.place,
 				paymentType: values.paymentType,
+				category: values.category,
 				dateTime: values.dateTime.toISOString(),
-				categoryId: values.categoryId
+				createdAt: moment().toISOString()
 			};
 			AddIncome(data).then(() => {});
 			form.resetFields();
@@ -54,14 +56,14 @@ class NewIncome extends React.Component {
 					<Row gutter={16}>
 						<Col span={12}>
 							<Form.Item label="Category">
-								{getFieldDecorator('categoryId')(
+								{getFieldDecorator('category')(
 									<Select
 										showSearch
 										filterOption={(input, option) =>
 											option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
 									>
-										{categories.map((category) => {
-											return <Option key={category.id}>{category.name}</Option>;
+										{incomeCategories.map(category => {
+											return <Option key={category.name}>{category.name}</Option>;
 										})}
 									</Select>
 								)}

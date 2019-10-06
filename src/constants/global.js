@@ -1,1 +1,2 @@
-export const categories = [ { name: 'Gas' }, { name: 'CellPhone plan' }, { name: 'Cable/TV' } ];
+export const expenseCategories = [ { name: 'Gas' }, { name: 'CellPhone plan' }, { name: 'Cable/TV' } ];
+export const incomeCategories = [ { name: 'Salary' }, { name: 'Refund' }, { name: 'Sold personal stuff' }, { name: 'Loan to someone' } ];
