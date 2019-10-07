@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Card } from 'antd';
+import { Card, Empty } from 'antd';
 import { PieChart, Pie, Legend, Tooltip, Cell } from 'recharts';
 import { colors } from '../../constants/global';
+import Mayre from 'mayre';
 class LastRecordsTimeline extends React.Component {
 	constructor(props) {
 		super(props);
@@ -15,34 +16,40 @@ class LastRecordsTimeline extends React.Component {
 
 		return (
 			<Card title="Expenses by category" className="pieChartCard">
-				<PieChart width={300} height={250}>
-					<Pie
-						dataKey="total"
-						nameKey="category"
-						isAnimationActive={false}
-						data={expensesByCategory}
-						cx={125}
-						cy={125}
-						outerRadius={80}
-						fill="#8884d8"
-						label
-					>
-						{expensesByCategory.map((entry, index) => <Cell key={index} fill={colors[index]} />)}
-					</Pie>
-					<Tooltip />
-					<Legend
-						margin={{
-							top: 100,
-							right: 100,
-							left: 100,
-							bottom: 100
-						}}
-						align="right"
-						layout="vertical"
-						iconType="circle"
-						iconSize={10}
-					/>
-				</PieChart>
+				<Mayre
+					of={
+						<PieChart width={300} height={250}>
+							<Pie
+								dataKey="total"
+								nameKey="category"
+								isAnimationActive={false}
+								data={expensesByCategory}
+								cx={125}
+								cy={125}
+								outerRadius={80}
+								fill="#8884d8"
+								label
+							>
+								{expensesByCategory.map((entry, index) => <Cell key={index} fill={colors[index]} />)}
+							</Pie>
+							<Tooltip />
+							<Legend
+								margin={{
+									top: 100,
+									right: 100,
+									left: 100,
+									bottom: 100
+								}}
+								align="right"
+								layout="vertical"
+								iconType="circle"
+								iconSize={10}
+							/>
+						</PieChart>
+					}
+					or={<Empty />}
+					when={expensesByCategory.length > 0}
+				/>
 			</Card>
 		);
 	}
