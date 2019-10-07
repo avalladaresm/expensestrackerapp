@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
-import settingsReducer from '../settings/reducer';
-import expensesReducer from '../expenses/reducer';
 import incomesReducer from '../incomes/reducer';
+import expensesReducer from '../expenses/reducer';
+import dashboardReducer from '../dashboard/reducer';
 
 export default combineReducers({
-	settingsReducer,
+	incomesReducer,
 	expensesReducer,
-	incomesReducer
+	dashboardReducer
 });

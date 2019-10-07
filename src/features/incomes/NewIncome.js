@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { Modal, Form, Input, Row, Col, Select, DatePicker, TimePicker } from 'antd';
 import { AddIncome } from './actions';
 import { bindActionCreators } from 'redux';
+import { incomeCategories } from '../../constants/global';
+import moment from 'moment';
 const { TextArea } = Input;
 const { Option } = Select;
 class NewIncome extends React.Component {
@@ -18,12 +20,13 @@ class NewIncome extends React.Component {
 		form.validateFields((err, values) => {
 			if (err) return;
 			let data = {
-				amount: values.amount,
 				description: values.description,
+				amount: values.amount,
 				place: values.place,
-				payment_type: values.payment_type,
-				datetime: values.datetime.toISOString(),
-				categoryId: values.categoryId
+				paymentType: values.paymentType,
+				category: values.category,
+				dateTime: values.dateTime.toISOString(),
+				createdAt: moment().toISOString()
 			};
 			AddIncome(data).then(() => {});
 			form.resetFields();
@@ -32,7 +35,7 @@ class NewIncome extends React.Component {
 	};
 
 	render() {
-		const { visible, onCancel, form, categories } = this.props;
+		const { visible, onCancel, form } = this.props;
 		const { getFieldDecorator } = form;
 		const currencyRegex = /^[0-9]+(\.[0-9]{1,2})?$/;
 		return (
@@ -53,14 +56,14 @@ class NewIncome extends React.Component {
 					<Row gutter={16}>
 						<Col span={12}>
 							<Form.Item label="Category">
-								{getFieldDecorator('categoryId')(
+								{getFieldDecorator('category')(
 									<Select
 										showSearch
 										filterOption={(input, option) =>
 											option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
 									>
-										{categories.map((category) => {
-											return <Option key={category.id}>{category.name}</Option>;
+										{incomeCategories.map(category => {
+											return <Option key={category.name}>{category.name}</Option>;
 										})}
 									</Select>
 								)}
@@ -68,7 +71,7 @@ class NewIncome extends React.Component {
 						</Col>
 						<Col span={12}>
 							<Form.Item label="Payment type">
-								{getFieldDecorator('payment_type')(<Input allowClear />)}
+								{getFieldDecorator('paymentType')(<Input allowClear />)}
 							</Form.Item>
 						</Col>
 					</Row>
@@ -81,11 +84,11 @@ class NewIncome extends React.Component {
 					</Row>
 					<Row gutter={16}>
 						<Col span={12}>
-							<Form.Item label="Date">{getFieldDecorator('datetime')(<DatePicker />)}</Form.Item>
+							<Form.Item label="Date">{getFieldDecorator('dateTime')(<DatePicker />)}</Form.Item>
 						</Col>
 						<Col span={12}>
 							<Form.Item label="Time">
-								{getFieldDecorator('datetime')(<TimePicker format={'hh:mm'} />)}
+								{getFieldDecorator('dateTime')(<TimePicker format={'hh:mm'} />)}
 							</Form.Item>
 						</Col>
 					</Row>
@@ -97,13 +100,11 @@ class NewIncome extends React.Component {
 
 NewIncome.propTypes = {
 	form: PropTypes.object.isRequired,
-	categories: PropTypes.array.isRequired,
 	AddIncome: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => {
 	return {
-		categories: state.settingsReducer.categories,
 		expenses: state.expensesReducer.expenses
 	};
 };

@@ -10,7 +10,6 @@ class ExpensesTable extends React.Component {
 	}
 
 	render() {
-		let {} = this.state;
 		let { expenses } = this.props;
 
 		const actions = (
@@ -31,12 +30,13 @@ class ExpensesTable extends React.Component {
 
 		const columns = [
 			{
-				title: 'Amount',
-				dataIndex: 'amount'
-			},
-			{
 				title: 'Description',
 				dataIndex: 'description'
+			},
+			{
+				title: 'Amount',
+				dataIndex: 'amount',
+				render: (amount) =>  amount && 'Lps. ' + amount
 			},
 			{
 				title: 'Place',
@@ -44,27 +44,35 @@ class ExpensesTable extends React.Component {
 			},
 			{
 				title: 'Payment type',
-				dataIndex: 'payment_type'
+				dataIndex: 'paymentType'
 			},
 			{
-				title: 'Date and time',
-				dataIndex: 'datetime',
-				render: (datetime) => moment(datetime).format('LLLL')
+				title: 'Category',
+				dataIndex: 'category'
 			},
 			{
 				title: 'Warranty',
 				dataIndex: 'warranty',
-				render: (warranty) => warranty && warranty + ' months'
+				render: (warranty) => warranty && warranty + ' month(s)'
 
 			},
 			{
+				title: 'Date and time',
+				dataIndex: 'dateTime',
+				render: (dateTime) => moment(dateTime).format('LLLL')
+			},
+			{
+				title: 'Created at',
+				dataIndex: 'createdAt',
+				render: (createdAt) => moment(createdAt).format('LLLL')
+			},
+			{
 				title: 'Actions',
+				width: 150,
 				render: () => actions
 			}
 		];
 
-		console.log('col', columns);
-		console.log('exs', expenses);
 		return (
 			<Card>
 				<Table rowKey={(expenses) => expenses.id} columns={columns} dataSource={expenses} bordered stripped />
