@@ -21,16 +21,17 @@ class LastRecordsTimeline extends React.Component {
 				<Mayre
 					of={
 						<div>
-							{<h3>Total expenses: Lps. {total}</h3>}{' '}
-							<PieChart width={420} height={250}>
+							{<h3>Total expenses: Lps. {total}</h3>}
+							{<h6>Values are represented in Lps (lempiras)</h6>}
+							<PieChart width={840} height={400}>
 								<Pie
 									dataKey="total"
 									nameKey="category"
 									isAnimationActive={true}
 									data={expensesByCategory}
-									cx={125}
-									cy={125}
-									outerRadius={80}
+									cx={420}
+									cy={160}
+									outerRadius={100}
 									label
 								>
 									{expensesByCategory.map((entry, index) => (
@@ -39,14 +40,7 @@ class LastRecordsTimeline extends React.Component {
 								</Pie>
 								<Tooltip />
 								<Legend
-									margin={{
-										top: 100,
-										right: 100,
-										left: 100,
-										bottom: 100
-									}}
-									align="right"
-									layout="vertical"
+									verticalAlign="top"
 									iconType="circle"
 									iconSize={10}
 								/>
