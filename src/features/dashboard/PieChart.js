@@ -22,16 +22,15 @@ class LastRecordsTimeline extends React.Component {
 					of={
 						<div>
 							{<h3>Total expenses: Lps. {total}</h3>}{' '}
-							<PieChart width={300} height={250}>
+							<PieChart width={420} height={250}>
 								<Pie
 									dataKey="total"
 									nameKey="category"
-									isAnimationActive={false}
+									isAnimationActive={true}
 									data={expensesByCategory}
 									cx={125}
 									cy={125}
 									outerRadius={80}
-									fill="#8884d8"
 									label
 								>
 									{expensesByCategory.map((entry, index) => (
