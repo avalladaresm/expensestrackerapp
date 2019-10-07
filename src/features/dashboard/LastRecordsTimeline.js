@@ -21,6 +21,7 @@ class LastRecordsTimeline extends React.Component {
 						<Timeline mode="alternate">
 							{lastRecords.map((last, index) => {
 								return (
+									// eslint-disable-next-line
 									<Timeline.Item key={index} color={last.type == 0 ? 'green' : 'red'}>
 										{last.amount + ' ' + last.place + ' ' + moment(last.dateTime).format('LLLL')}
 									</Timeline.Item>

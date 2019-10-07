@@ -35,7 +35,8 @@ class IncomesTable extends React.Component {
 			},
 			{
 				title: 'Amount',
-				dataIndex: 'amount'
+				dataIndex: 'amount',
+				render: (amount) =>  amount && 'Lps. ' + amount
 			},
 			{
 				title: 'Place',

@@ -35,7 +35,8 @@ class ExpensesTable extends React.Component {
 			},
 			{
 				title: 'Amount',
-				dataIndex: 'amount'
+				dataIndex: 'amount',
+				render: (amount) =>  amount && 'Lps. ' + amount
 			},
 			{
 				title: 'Place',
@@ -52,7 +53,7 @@ class ExpensesTable extends React.Component {
 			{
 				title: 'Warranty',
 				dataIndex: 'warranty',
-				render: (warranty) => warranty && warranty + ' months'
+				render: (warranty) => warranty && warranty + ' month(s)'
 
 			},
 			{

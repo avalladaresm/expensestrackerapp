@@ -23,7 +23,7 @@ class Incomes extends React.Component {
 		let { visible } = this.state;
 		return (
 			<Row>
-				<Button type="primary" onClick={this.showModal}>
+				<Button className="addButton" type="primary" onClick={this.showModal}>
 					Add Income
 				</Button>
 				<NewIncome visible={visible} onCancel={this.onCancel} />

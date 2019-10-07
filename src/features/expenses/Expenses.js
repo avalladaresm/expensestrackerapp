@@ -23,7 +23,7 @@ class Expenses extends React.Component {
 		let { visible } = this.state;
 		return (
 			<Row>
-				<Button type="primary" onClick={this.showModal}>
+				<Button className="addButton" type="primary" onClick={this.showModal}>
 					Add Expense
 				</Button>
 				<NewExpense visible={visible} onCancel={this.onCancel} />

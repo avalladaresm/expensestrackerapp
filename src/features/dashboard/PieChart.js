@@ -14,7 +14,7 @@ class LastRecordsTimeline extends React.Component {
 	render() {
 		let { expensesByCategory } = this.props;
 		let totals = expensesByCategory.map((expense) => expense.total);
-		let total = totals.length != 0 ? totals.reduce((acc, curr) => acc + curr) : '';
+		let total = totals.length !== 0 ? totals.reduce((acc, curr) => acc + curr) : '';
 
 		return (
 			<Card title="Expenses by category" className="pieChartCard">
