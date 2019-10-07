@@ -6,16 +6,17 @@ import { BrowserRouter as Router, Link } from 'react-router-dom';
 import logo from '../../assets/logo.png';
 import { mainRoute } from '../../routes';
 import { bindActionCreators } from 'redux';
-import { InitExpenses, InitIncomes, InitLastRecords } from './actions';
+import { InitExpenses, InitIncomes, InitLastRecords, InitExpensesByCategory } from './actions';
 const { Header, Content, Footer } = Layout;
 
 class Main extends React.Component {
 	componentDidMount() {
-		let { InitExpenses, InitIncomes, InitLastRecords } = this.props;
+		let { InitExpenses, InitIncomes, InitLastRecords, InitExpensesByCategory } = this.props;
 
 		InitIncomes().then(() => {});
 		InitExpenses().then(() => {});
 		InitLastRecords().then(() => {});
+		InitExpensesByCategory().then(() => {});
 	}
 
 	render() {
@@ -59,7 +60,8 @@ class Main extends React.Component {
 Main.propTypes = {
 	InitIncomes: PropTypes.func.isRequired,
 	InitExpenses: PropTypes.func.isRequired,
-	InitLastRecords: PropTypes.func.isRequired
+	InitLastRecords: PropTypes.func.isRequired,
+	InitExpensesByCategory: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = (dispatch) =>
@@ -67,7 +69,8 @@ const mapDispatchToProps = (dispatch) =>
 		{
 			InitIncomes,
 			InitExpenses,
-			InitLastRecords
+			InitLastRecords,
+			InitExpensesByCategory
 		},
 		dispatch
 	);

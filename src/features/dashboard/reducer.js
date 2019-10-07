@@ -1,7 +1,8 @@
-import { GET_LAST_RECORDS } from './actionTypes';
+import { GET_LAST_RECORDS, GET_EXPENSES_BY_CATEGORY } from './actionTypes';
 
 const initialState = {
-	lastRecords: []
+	lastRecords: [],
+	expensesByCategory: []
 };
 
 const dashboardReducer = (state = initialState, action) => {
@@ -10,6 +11,12 @@ const dashboardReducer = (state = initialState, action) => {
 			return {
 				...state,
 				lastRecords: action.payload
+			};
+		}
+		case GET_EXPENSES_BY_CATEGORY: {
+			return {
+				...state,
+				expensesByCategory: action.payload
 			};
 		}
 		default:

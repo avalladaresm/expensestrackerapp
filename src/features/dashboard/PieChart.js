@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Card } from 'antd';
-import { Pie, yuan } from 'ant-design-pro/lib/Charts';
+import { PieChart, Pie, Tooltip } from 'recharts';
 class LastRecordsTimeline extends React.Component {
 	constructor(props) {
 		super(props);
@@ -10,63 +10,35 @@ class LastRecordsTimeline extends React.Component {
 	}
 
 	render() {
-
-		const salesPieData = [
-			{
-				x: '家用电器',
-				y: 4544
-			},
-			{
-				x: '食用酒水',
-				y: 3321
-			},
-			{
-				x: '个护健康',
-				y: 3113
-			},
-			{
-				x: '服饰箱包',
-				y: 2341
-			},
-			{
-				x: '母婴产品',
-				y: 1231
-			},
-			{
-				x: '其他',
-				y: 1231
-			}
-		];
+		let { expensesByCategory } = this.props;
 
 		return (
-			<Card title="Activity by category" className="pieChartCard">
-				<Pie
-					hasLegend
-					title="销售额"
-					subTitle="销售额"
-					total={() => (
-						<span
-							dangerouslySetInnerHTML={{
-								__html: yuan(salesPieData.reduce((pre, now) => now.y + pre, 0))
-							}}
-						/>
-					)}
-					data={salesPieData}
-					valueFormat={(val) => <span dangerouslySetInnerHTML={{ __html: yuan(val) }} />}
-					height={294}
-				/>
+			<Card title="Expenses by category" className="pieChartCard">
+				<PieChart width={800} height={400}>
+					<Pie
+						dataKey="total"
+						isAnimationActive={false}
+						data={expensesByCategory}
+						cx={200}
+						cy={200}
+						outerRadius={80}
+                        fill="#8884d8"
+                        label
+					/>
+					<Tooltip />
+				</PieChart>
 			</Card>
 		);
 	}
 }
 
 LastRecordsTimeline.propTypes = {
-	lastRecords: PropTypes.array.isRequired
+	expensesByCategory: PropTypes.array.isRequired
 };
 
 const mapStateToProps = (state) => {
 	return {
-		lastRecords: state.dashboardReducer.lastRecords
+		expensesByCategory: state.dashboardReducer.expensesByCategory
 	};
 };
 

@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './styles/styles.scss';
 import 'antd/dist/antd.css';
-import 'ant-design-pro/dist/ant-design-pro.css';
 import Main from './features/layouts/Main';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
