@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Modal, Form, Input, Row, Col, Select, DatePicker, TimePicker } from 'antd';
-import { AddExpense } from './actions';
+import { AddExpense, EditExpense } from './actions';
 import { bindActionCreators } from 'redux';
 import { expenseCategories } from '../../constants/global';
 import moment from 'moment';
@@ -16,22 +16,38 @@ class AddOrEditExpense extends React.Component {
 
 	onOk = (e) => {
 		e.preventDefault();
-		const { form, onCancel, AddExpense } = this.props;
+		const { form, onCancel, AddExpense, EditExpense } = this.props;
 		form.validateFields((err, values) => {
 			if (err) return;
-			let data = {
-				description: values.description,
-				amount: values.amount,
-				place: values.place,
-				paymentType: values.paymentType,
-				category: values.category,
-				warranty: values.warranty ? values.warranty : null,
-				dateTime: values.dateTime.toISOString(),
-				createdAt: moment().toISOString()
-			};
-			AddExpense(data).then(() => {});
-			form.resetFields();
-			onCancel();
+			if (!values.id) {
+				let data = {
+					description: values.description,
+					amount: values.amount,
+					place: values.place,
+					paymentType: values.paymentType,
+					category: values.category,
+					warranty: values.warranty ? values.warranty : null,
+					dateTime: values.dateTime.toISOString(),
+					createdAt: moment().toISOString()
+				};
+				AddExpense(data).then(() => {});
+				form.resetFields();
+				onCancel();
+			} else {
+				let data = {
+					id: values.id,
+					description: values.description,
+					amount: values.amount,
+					place: values.place,
+					paymentType: values.paymentType,
+					category: values.category,
+					warranty: values.warranty ? values.warranty : null,
+					dateTime: values.dateTime.toISOString()
+				};
+				EditExpense(data).then(() => {});
+				form.resetFields();
+				onCancel();
+			}
 		});
 	};
 
@@ -41,18 +57,14 @@ class AddOrEditExpense extends React.Component {
 		const currencyRegex = /^[0-9]+(\.[0-9]{1,2})?$/;
 		const numberRegex = /^[0-9]+$/;
 
-		console.log('rec', record);
 		return (
-			<Modal
-				visible={visible}
-				title={title}
-				okText="Add"
-				onCancel={onCancel}
-				onOk={this.onOk}
-			>
+			<Modal visible={visible} title={title} okText="Save" onCancel={onCancel} onOk={this.onOk}>
 				<Form layout="vertical">
 					<Row gutter={16}>
 						<Col span={6}>
+							{getFieldDecorator('id', {
+								initialValue: record ? record.id : null
+							})(<Input hidden={true} />)}
 							<Form.Item label="Amount">
 								{getFieldDecorator('amount', {
 									initialValue: record.amount ? record.amount : '',
@@ -142,16 +154,11 @@ AddOrEditExpense.defaultProps = {
 AddOrEditExpense.propTypes = {
 	form: PropTypes.object.isRequired,
 	AddExpense: PropTypes.func.isRequired,
+	EditExpense: PropTypes.func.isRequired,
 	record: PropTypes.object.isRequired,
-	title: PropTypes.string,
+	title: PropTypes.string
 };
 
-const mapStateToProps = (state) => {
-	return {
-		expenses: state.expensesReducer.expenses
-	};
-};
+const mapDispatchToProps = (dispatch) => bindActionCreators({ AddExpense, EditExpense }, dispatch);
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({ AddExpense }, dispatch);
-
-export default connect(mapStateToProps, mapDispatchToProps)(Form.create()(AddOrEditExpense));
+export default connect(null, mapDispatchToProps)(Form.create()(AddOrEditExpense));
