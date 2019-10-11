@@ -14,13 +14,13 @@ export const AddIncome = (data) => (dispatch) => {
 };
 
 export const EditIncome = (data) => (dispatch) => {
-	return axios.patch(`http://localhost:4000/api/Incomes/${data.id}`, data).then((response) => {
+	return axios.patch(`https://expensestrackerapi.herokuapp.com/api/Incomes/${data.id}`, data).then((response) => {
 		dispatch({ type: EDIT_INCOME, payload: response.data });
 	});
 };
 
 export const DeleteIncome = (id) => (dispatch) => {
-	return axios.delete(`http://localhost:4000/api/Incomes/${id}`).then((response) => {
+	return axios.delete(`https://expensestrackerapi.herokuapp.com/api/Incomes/${id}`).then((response) => {
 		dispatch({ type: DELETE_INCOME, payload: response.data });
 	});
 };

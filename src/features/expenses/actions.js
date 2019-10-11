@@ -14,13 +14,13 @@ export const AddExpense = (data) => (dispatch) => {
 };
 
 export const EditExpense = (data) => (dispatch) => {
-	return axios.patch(`http://localhost:4000/api/Expenses/${data.id}`, data).then((response) => {
+	return axios.patch(`https://expensestrackerapi.herokuapp.com/api/Expenses/${data.id}`, data).then((response) => {
 		dispatch({ type: EDIT_EXPENSE, payload: response.data });
 	});
 };
 
 export const DeleteExpense = (id) => (dispatch) => {
-	return axios.delete(`http://localhost:4000/api/Expenses/${id}`).then((response) => {
+	return axios.delete(`https://expensestrackerapi.herokuapp.com/api/Expenses/${id}`).then((response) => {
 		dispatch({ type: DELETE_EXPENSE, payload: response.data });
 	});
 };
