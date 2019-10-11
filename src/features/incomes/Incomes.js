@@ -1,6 +1,6 @@
 import React from 'react';
 import { Row, Button } from 'antd';
-import NewIncome from './NewIncome';
+import AddOrEditIncome from './AddOrEditIncome';
 import IncomesTable from './IncomesTable';
 
 class Incomes extends React.Component {
@@ -26,7 +26,7 @@ class Incomes extends React.Component {
 				<Button className="addButton" type="primary" onClick={this.showModal}>
 					Add Income
 				</Button>
-				<NewIncome visible={visible} onCancel={this.onCancel} />
+				<AddOrEditIncome visible={visible} onCancel={this.onCancel} title={'Add income'} />
 				<IncomesTable />
 			</Row>
 		);

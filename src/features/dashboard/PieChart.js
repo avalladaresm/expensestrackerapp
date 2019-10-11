@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Card, Empty } from 'antd';
+import { Card, Empty, Button } from 'antd';
 import { PieChart, Pie, Legend, Tooltip, Cell } from 'recharts';
 import { colors } from '../../constants/global';
+import { GetExpensesByCategory } from './actions';
+import { bindActionCreators } from 'redux';
 import Mayre from 'mayre';
 class LastRecordsTimeline extends React.Component {
 	constructor(props) {
@@ -12,7 +14,7 @@ class LastRecordsTimeline extends React.Component {
 	}
 
 	render() {
-		let { expensesByCategory } = this.props;
+		let { expensesByCategory, GetExpensesByCategory } = this.props;
 		let totals = expensesByCategory.map((expense) => expense.total);
 		let total = totals.length !== 0 ? totals.reduce((acc, curr) => acc + curr) : '';
 
@@ -21,6 +23,9 @@ class LastRecordsTimeline extends React.Component {
 				<Mayre
 					of={
 						<div>
+							<Button type="primary" icon="reload" onClick={() => GetExpensesByCategory()}>
+								Reload
+							</Button>
 							{<h3>Total expenses: Lps. {total}</h3>}
 							{<h6>Values are represented in Lps (lempiras)</h6>}
 							<PieChart width={840} height={400}>
@@ -39,11 +44,7 @@ class LastRecordsTimeline extends React.Component {
 									))}
 								</Pie>
 								<Tooltip />
-								<Legend
-									verticalAlign="top"
-									iconType="circle"
-									iconSize={10}
-								/>
+								<Legend verticalAlign="top" iconType="circle" iconSize={10} />
 							</PieChart>
 						</div>
 					}
@@ -56,7 +57,8 @@ class LastRecordsTimeline extends React.Component {
 }
 
 LastRecordsTimeline.propTypes = {
-	expensesByCategory: PropTypes.array.isRequired
+	expensesByCategory: PropTypes.array.isRequired,
+	GetExpensesByCategory: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => {
@@ -65,4 +67,6 @@ const mapStateToProps = (state) => {
 	};
 };
 
-export default connect(mapStateToProps, null)(LastRecordsTimeline);
+const mapDispatchToProps = (dispatch) => bindActionCreators({ GetExpensesByCategory }, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(LastRecordsTimeline);

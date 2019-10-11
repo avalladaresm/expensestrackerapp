@@ -1,4 +1,4 @@
-import { GET_INCOMES, ADD_INCOME } from './actionTypes';
+import { GET_INCOMES, ADD_INCOME,EDIT_INCOME, DELETE_INCOME } from './actionTypes';
 
 const initialState = {
 	incomes: []
@@ -18,6 +18,27 @@ const incomesReducer = (state = initialState, action) => {
 			return {
 				...state,
 				incomes: updatedIncomes
+			};
+		}
+		case EDIT_INCOME: {
+			let incomeToEdit = state.incomes.map((element) => {
+				if (element.id != action.payload.id) {
+					return {
+						...element
+					};
+				}
+				return {
+					...action.payload
+				};
+			});
+			return {
+				...state,
+				incomes: incomeToEdit
+			};
+		}
+		case DELETE_INCOME: {
+			return {
+				...state
 			};
 		}
 		default:

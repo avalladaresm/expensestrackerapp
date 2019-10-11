@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Card, Timeline, Empty } from 'antd';
+import { Card, Timeline, Empty, Button } from 'antd';
 import Mayre from 'mayre';
 import moment from 'moment';
+import { GetLastRecords } from './actions';
+import { bindActionCreators } from 'redux';
 
 class LastRecordsTimeline extends React.Component {
 	constructor(props) {
@@ -12,22 +14,32 @@ class LastRecordsTimeline extends React.Component {
 	}
 
 	render() {
-		let { lastRecords } = this.props;
+		let { lastRecords, GetLastRecords } = this.props;
 
 		return (
 			<Card title="Last records" className="lastRecordsCard">
 				<Mayre
 					of={
-						<Timeline mode="alternate">
-							{lastRecords.map((last, index) => {
-								return (
-									// eslint-disable-next-line
-									<Timeline.Item key={index} color={last.type == 0 ? 'green' : 'red'}>
-										{last.amount + ' ' + last.place + ' ' + moment(last.dateTime).format('LLLL')}
-									</Timeline.Item>
-								);
-							})}
-						</Timeline>
+						<div>
+							<Button type="primary" icon="reload" onClick={() => GetLastRecords()}>
+								Reload
+							</Button>
+							<Timeline mode="alternate">
+								{lastRecords.map((last, index) => {
+									return (
+										// eslint-disable-next-line
+										<Timeline.Item key={index} color={last.type == 0 ? 'green' : 'red'}>
+											{'L. ' +
+												last.amount +
+												' | ' +
+												last.place +
+												' | ' +
+												moment(last.dateTime).format('LL')}
+										</Timeline.Item>
+									);
+								})}
+							</Timeline>
+						</div>
 					}
 					or={<Empty />}
 					when={lastRecords.length > 0}
@@ -38,7 +50,8 @@ class LastRecordsTimeline extends React.Component {
 }
 
 LastRecordsTimeline.propTypes = {
-	lastRecords: PropTypes.array.isRequired
+	lastRecords: PropTypes.array.isRequired,
+	GetLastRecords: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => {
@@ -47,4 +60,6 @@ const mapStateToProps = (state) => {
 	};
 };
 
-export default connect(mapStateToProps, null)(LastRecordsTimeline);
+const mapDispatchToProps = (dispatch) => bindActionCreators({ GetLastRecords }, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(LastRecordsTimeline);
