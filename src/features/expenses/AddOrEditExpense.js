@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Modal, Form, Input, Row, Col, Select, DatePicker, TimePicker } from 'antd';
+import { Modal, Form, Input, Row, Col, Select, DatePicker, TimePicker, message } from 'antd';
 import { AddExpense, EditExpense } from './actions';
 import { bindActionCreators } from 'redux';
 import { expenseCategories } from '../../constants/global';
@@ -11,13 +11,16 @@ const { Option } = Select;
 class AddOrEditExpense extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {};
+		this.state = {
+			loading: false
+		};
 	}
 
 	onOk = (e) => {
 		e.preventDefault();
 		const { form, onCancel, AddExpense, EditExpense } = this.props;
 		form.validateFields((err, values) => {
+			this.setState({ loading: true });
 			if (err) return;
 			if (!values.id) {
 				let data = {
@@ -30,7 +33,10 @@ class AddOrEditExpense extends React.Component {
 					dateTime: values.dateTime.toISOString(),
 					createdAt: moment().toISOString()
 				};
-				AddExpense(data).then(() => {});
+				AddExpense(data).then(() => {
+					this.setState({ loading: false });
+					message.success('Record added successfully!');
+				});
 				form.resetFields();
 				onCancel();
 			} else {
@@ -44,7 +50,10 @@ class AddOrEditExpense extends React.Component {
 					warranty: values.warranty ? values.warranty : null,
 					dateTime: values.dateTime.toISOString()
 				};
-				EditExpense(data).then(() => {});
+				EditExpense(data).then(() => {
+					this.setState({ loading: false });
+					message.success('Record edited successfully!');
+				});
 				form.resetFields();
 				onCancel();
 			}

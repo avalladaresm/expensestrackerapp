@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Table, Card, Icon, Divider, Button, Tooltip } from 'antd';
+import { Table, Card, Icon, Divider, Button, Tooltip, message } from 'antd';
 import moment from 'moment';
 import AddOrEditExpense from './AddOrEditExpense';
 import { DeleteExpense, GetExpenses } from './actions';
@@ -25,13 +25,19 @@ class ExpensesTable extends React.Component {
 
 	deleteExpense = (id) => {
 		let { DeleteExpense, GetExpenses } = this.props;
-		DeleteExpense(id).then(() => {});
-		GetExpenses().then(() => {});
+		this.setState({ loading: true });
+		DeleteExpense(id).then(() => {
+			this.setState({ loading: false });
+			message.success('Record deleted successfully!');
+		});
+		GetExpenses().then(() => {
+			this.setState({ loading: false });
+		});
 	};
 
 	render() {
 		let { expenses } = this.props;
-		let { visible, recordToEdit } = this.state;
+		let { visible, recordToEdit, loading } = this.state;
 
 		const columns = [
 			{
@@ -95,7 +101,13 @@ class ExpensesTable extends React.Component {
 
 		return (
 			<Card>
-				<Table rowKey={(expenses) => expenses.id} columns={columns} dataSource={expenses} bordered stripped />
+				<Table
+					loading={loading}
+					rowKey={(expenses) => expenses.id}
+					columns={columns}
+					dataSource={expenses}
+					bordered
+				/>
 				<AddOrEditExpense
 					visible={visible}
 					onCancel={this.onCancel}
