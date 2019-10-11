@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_EXPENSES, ADD_EXPENSE, EDIT_EXPENSE } from './actionTypes';
+import { GET_EXPENSES, ADD_EXPENSE, EDIT_EXPENSE, DELETE_EXPENSE } from './actionTypes';
 
 export const GetExpenses = () => (dispatch) => {
 	return axios.get(`http://localhost:4000/api/Expenses/`).then((response) => {
@@ -16,5 +16,11 @@ export const AddExpense = (data) => (dispatch) => {
 export const EditExpense = (data) => (dispatch) => {
 	return axios.patch(`http://localhost:4000/api/Expenses/${data.id}`, data).then((response) => {
 		dispatch({ type: EDIT_EXPENSE, payload: response.data });
+	});
+};
+
+export const DeleteExpense = (id) => (dispatch) => {
+	return axios.delete(`http://localhost:4000/api/Expenses/${id}`).then((response) => {
+		dispatch({ type: DELETE_EXPENSE, payload: response.data });
 	});
 };

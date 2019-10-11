@@ -1,8 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Table, Card, Icon, Divider, Button, Tooltip } from 'antd';
 import moment from 'moment';
 import AddOrEditExpense from './AddOrEditExpense';
+import { DeleteExpense, GetExpenses } from './actions';
+import { bindActionCreators } from 'redux';
 class ExpensesTable extends React.Component {
 	constructor(props) {
 		super(props);
@@ -18,6 +21,12 @@ class ExpensesTable extends React.Component {
 
 	onCancel = () => {
 		this.setState({ visible: false });
+	};
+
+	deleteExpense = (id) => {
+		let { DeleteExpense, GetExpenses } = this.props;
+		DeleteExpense(id).then(() => {});
+		GetExpenses().then(() => {});
 	};
 
 	render() {
@@ -74,7 +83,7 @@ class ExpensesTable extends React.Component {
 							</Tooltip>
 							<Divider type="vertical" />
 							<Tooltip title="Delete record">
-								<Button type="link">
+								<Button type="link" onClick={() => this.deleteExpense(record.id)}>
 									<Icon type="delete" />
 								</Button>
 							</Tooltip>
@@ -98,10 +107,17 @@ class ExpensesTable extends React.Component {
 	}
 }
 
+ExpensesTable.propTypes = {
+	DeleteExpense: PropTypes.func.isRequired,
+	GetExpenses: PropTypes.func.isRequired
+};
+
 const mapStateToProps = (state) => {
 	return {
 		expenses: state.expensesReducer.expenses
 	};
 };
 
-export default connect(mapStateToProps, null)(ExpensesTable);
+const mapDispatchToProps = (dispatch) => bindActionCreators({ DeleteExpense, GetExpenses }, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(ExpensesTable);
