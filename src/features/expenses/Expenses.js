@@ -1,6 +1,6 @@
 import React from 'react';
 import { Row, Button } from 'antd';
-import NewExpense from './NewExpense';
+import AddOrEditExpense from './AddOrEditExpense';
 import ExpensesTable from './ExpensesTable';
 
 class Expenses extends React.Component {
@@ -26,7 +26,7 @@ class Expenses extends React.Component {
 				<Button className="addButton" type="primary" onClick={this.showModal}>
 					Add Expense
 				</Button>
-				<NewExpense visible={visible} onCancel={this.onCancel} />
+				<AddOrEditExpense visible={visible} onCancel={this.onCancel} title={'Add expense'} />
 				<ExpensesTable />
 			</Row>
 		);

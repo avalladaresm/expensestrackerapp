@@ -8,7 +8,7 @@ import { expenseCategories } from '../../constants/global';
 import moment from 'moment';
 const { TextArea } = Input;
 const { Option } = Select;
-class NewExpense extends React.Component {
+class AddOrEditExpense extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {};
@@ -25,7 +25,7 @@ class NewExpense extends React.Component {
 				place: values.place,
 				paymentType: values.paymentType,
 				category: values.category,
-				warranty: values.warranty,
+				warranty: values.warranty ? values.warranty : null,
 				dateTime: values.dateTime.toISOString(),
 				createdAt: moment().toISOString()
 			};
@@ -36,35 +36,50 @@ class NewExpense extends React.Component {
 	};
 
 	render() {
-		const { visible, onCancel, form } = this.props;
+		const { visible, onCancel, form, record, title } = this.props;
 		const { getFieldDecorator } = form;
 		const currencyRegex = /^[0-9]+(\.[0-9]{1,2})?$/;
 		const numberRegex = /^[0-9]+$/;
+
+		console.log('rec', record);
 		return (
-			<Modal visible={visible} title="Add expense" okText="Add" onCancel={onCancel} onOk={this.onOk}>
+			<Modal
+				visible={visible}
+				title={title}
+				okText="Add"
+				onCancel={onCancel}
+				onOk={this.onOk}
+			>
 				<Form layout="vertical">
 					<Row gutter={16}>
 						<Col span={6}>
 							<Form.Item label="Amount">
 								{getFieldDecorator('amount', {
+									initialValue: record.amount ? record.amount : '',
 									rules: [ { pattern: currencyRegex, message: 'Data has to be in currency format!' } ]
 								})(<Input allowClear />)}
 							</Form.Item>
 						</Col>
 						<Col span={18}>
-							<Form.Item label="Place">{getFieldDecorator('place')(<Input allowClear />)}</Form.Item>
+							<Form.Item label="Place">
+								{getFieldDecorator('place', {
+									initialValue: record.place ? record.place : ''
+								})(<Input allowClear />)}
+							</Form.Item>
 						</Col>
 					</Row>
 					<Row gutter={16}>
 						<Col span={12}>
 							<Form.Item label="Category">
-								{getFieldDecorator('category')(
+								{getFieldDecorator('category', {
+									initialValue: record.category ? record.category : ''
+								})(
 									<Select
 										showSearch
 										filterOption={(input, option) =>
 											option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
 									>
-										{expenseCategories.map(category => {
+										{expenseCategories.map((category) => {
 											return <Option key={category.name}>{category.name}</Option>;
 										})}
 									</Select>
@@ -73,7 +88,9 @@ class NewExpense extends React.Component {
 						</Col>
 						<Col span={12}>
 							<Form.Item label="Payment type">
-								{getFieldDecorator('paymentType')(<Input allowClear />)}
+								{getFieldDecorator('paymentType', {
+									initialValue: record.paymentType ? record.paymentType : ''
+								})(<Input allowClear />)}
 							</Form.Item>
 						</Col>
 					</Row>
@@ -81,6 +98,7 @@ class NewExpense extends React.Component {
 						<Col span={6}>
 							<Form.Item label="Warranty">
 								{getFieldDecorator('warranty', {
+									initialValue: record.warranty ? record.warranty : '',
 									rules: [
 										{ pattern: numberRegex, message: 'Type the number of months under warranty!' }
 									]
@@ -89,17 +107,25 @@ class NewExpense extends React.Component {
 						</Col>
 						<Col span={18}>
 							<Form.Item label="Description">
-								{getFieldDecorator('description')(<TextArea rows={1} />)}
+								{getFieldDecorator('description', {
+									initialValue: record.description ? record.description : ''
+								})(<TextArea rows={1} />)}
 							</Form.Item>
 						</Col>
 					</Row>
 					<Row gutter={16}>
 						<Col span={12}>
-							<Form.Item label="Date">{getFieldDecorator('dateTime')(<DatePicker />)}</Form.Item>
+							<Form.Item label="Date">
+								{getFieldDecorator('dateTime', {
+									initialValue: moment()
+								})(<DatePicker />)}
+							</Form.Item>
 						</Col>
 						<Col span={12}>
 							<Form.Item label="Time">
-								{getFieldDecorator('dateTime')(<TimePicker format={'hh:mm'} />)}
+								{getFieldDecorator('dateTime', {
+									initialValue: moment()
+								})(<TimePicker format={'HH:mm'} />)}
 							</Form.Item>
 						</Col>
 					</Row>
@@ -109,9 +135,15 @@ class NewExpense extends React.Component {
 	}
 }
 
-NewExpense.propTypes = {
+AddOrEditExpense.defaultProps = {
+	record: {}
+};
+
+AddOrEditExpense.propTypes = {
 	form: PropTypes.object.isRequired,
-	AddExpense: PropTypes.func.isRequired
+	AddExpense: PropTypes.func.isRequired,
+	record: PropTypes.object.isRequired,
+	title: PropTypes.string,
 };
 
 const mapStateToProps = (state) => {
@@ -122,4 +154,4 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({ AddExpense }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(Form.create()(NewExpense));
+export default connect(mapStateToProps, mapDispatchToProps)(Form.create()(AddOrEditExpense));
